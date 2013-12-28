@@ -16,7 +16,7 @@ class DocumentElementTest extends ElementTest
     protected function setUp()
     {
         parent::setUp();
-        $this->document = new DocumentElement($this->session);
+        $this->document = new DocumentElement($this->driver, $this->selectors);
     }
 
     public function testFindAll()
