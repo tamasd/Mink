@@ -3,7 +3,6 @@
 namespace Behat\Mink\Tests\Selector;
 
 use Behat\Mink\Selector\NamedSelector;
-use Behat\Mink\Selector\Xpath\Escaper;
 
 abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,19 +49,6 @@ abstract class NamedSelectorTest extends \PHPUnit_Framework_TestCase
         $nodeList = $domXpath->query($xpath);
 
         $this->assertEquals($expectedCount, $nodeList->length);
-    }
-
-    /**
-     * @dataProvider getSelectorTests
-     * @group legacy
-     */
-    public function testEscapedSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount = null)
-    {
-        // Escape the locator as Mink 1.x expects the caller of the NamedSelector to handle it
-        $escaper = new Escaper();
-        $locator = $escaper->escapeLiteral($locator);
-
-        $this->testSelectors($fixtureFile, $selector, $locator, $expectedExactCount, $expectedPartialCount);
     }
 
     public function getSelectorTests()

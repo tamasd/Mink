@@ -11,7 +11,6 @@
 namespace Behat\Mink\Element;
 
 use Behat\Mink\Driver\DriverInterface;
-use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Selector\Xpath\Manipulator;
 use Behat\Mink\Session;
@@ -23,11 +22,6 @@ use Behat\Mink\Session;
  */
 abstract class Element implements ElementInterface
 {
-    /**
-     * @var Session
-     */
-    private $session;
-
     /**
      * Driver.
      *
@@ -53,24 +47,9 @@ abstract class Element implements ElementInterface
     public function __construct(Session $session)
     {
         $this->xpathManipulator = new Manipulator();
-        $this->session = $session;
 
         $this->driver = $session->getDriver();
         $this->selectorsHandler = $session->getSelectorsHandler();
-    }
-
-    /**
-     * Returns element session.
-     *
-     * @return Session
-     *
-     * @deprecated Accessing the session from the element is deprecated as of 1.6 and will be impossible in 2.0.
-     */
-    public function getSession()
-    {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.6 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->session;
     }
 
     /**
@@ -81,20 +60,6 @@ abstract class Element implements ElementInterface
     protected function getDriver()
     {
         return $this->driver;
-    }
-
-    /**
-     * Returns selectors handler.
-     *
-     * @return SelectorsHandler
-     *
-     * @deprecated Accessing the selectors handler in the element is deprecated as of 1.7 and will be impossible in 2.0.
-     */
-    protected function getSelectorsHandler()
-    {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->selectorsHandler;
     }
 
     /**
@@ -192,23 +157,5 @@ abstract class Element implements ElementInterface
     public function getOuterHtml()
     {
         return $this->getDriver()->getOuterHtml($this->getXpath());
-    }
-
-    /**
-     * Builds an ElementNotFoundException.
-     *
-     * @param string      $type
-     * @param string|null $selector
-     * @param string|null $locator
-     *
-     * @return ElementNotFoundException
-     *
-     * @deprecated as of 1.7, to be removed in 2.0
-     */
-    protected function elementNotFound($type, $selector = null, $locator = null)
-    {
-        @trigger_error(sprintf('The method %s is deprecated as of 1.7 and will be removed in 2.0', __METHOD__), E_USER_DEPRECATED);
-
-        return new ElementNotFoundException($this->driver, $type, $selector, $locator);
     }
 }
